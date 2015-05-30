@@ -3,6 +3,9 @@
 # ~~~~
 
 # Home page
-GET        /                    controllers.Application.index
+GET         /                    controllers.Application.index
+GET         /all                 controllers.Application.selectAll
 
-GET        /assets/*file        controllers.Assets.at(path="/public", file)
+POST        /create              controllers.Application.create
+
+GET         /assets/*file        controllers.Assets.at(path="/public", file)
