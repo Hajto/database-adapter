@@ -15,3 +15,10 @@ function gatherData(){
     }
     return outcome
 }
+
+function hideWrapper(){
+    document.getElementById("wrapper").style.display = "block"
+}
+function showWrapper(){
+    document.getElementById("wrapper").style.display = "none"
+}

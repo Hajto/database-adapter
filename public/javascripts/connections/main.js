@@ -15,3 +15,19 @@ function createSlave(event){
     ajaxAPI(connection);
     return false
 }
+
+function selectSlaves(event){
+    var connection = new _haitoRequest(
+        "all",
+        "GET",
+        {},
+        function (response) {
+            console.log(JSON.parse(response));
+            parseFeed(JSON.parse(response))
+        },
+        function (response) {
+            alert(response)
+        }
+    );
+    ajaxAPI(connection)
+}

@@ -1,8 +1,5 @@
 package controllers
 
-import java.text.SimpleDateFormat
-import java.util.Calendar
-
 import play.api._
 import play.api.libs.json.{JsArray, Json, JsObject}
 import play.modules.reactivemongo.json.BSONFormats._
@@ -34,23 +31,10 @@ object Application extends Controller with MongoController {
   }
 
   def selectAll = Action.async{
-    val cursor: Cursor[JsObject] = collection.
-      // find all people with name `name`
-      find(Json.obj()).
-      // perform the query and get a cursor of JsObject
-      cursor[JsObject]
-
-    // gather all the JsObjects in a list
-    val futurePersonsList: Future[List[JsObject]] = cursor.collect[List]()
-
-    // transform the list into a JsArray
-    val futurePersonsJsonArray: Future[JsArray] = futurePersonsList.map { persons =>
-      Json.arr(persons)
-    }
-
-    // everything's ok! Let's reply with the array
-    futurePersonsJsonArray.map { persons =>
-      Ok(persons)
+    val cursor: Cursor[JsObject] = collection.find(Json.obj()).cursor[JsObject]
+    val futureSlavesList: Future[List[JsObject]] = cursor.collect[List]()
+    futureSlavesList.map { slaves =>
+      Ok(Json.toJson(slaves))
     }
   }
 
