@@ -17,8 +17,8 @@ function gatherData(){
 }
 
 function hideWrapper(){
-    document.getElementById("wrapper").style.display = "block"
+    document.getElementById("wrapper").style.display = "none"
 }
 function showWrapper(){
-    document.getElementById("wrapper").style.display = "none"
+    document.getElementById("wrapper").style.display = "block"
 }

@@ -21,3 +21,15 @@ function parseFeed(array){
         table.appendChild(createRow(array[i]))
     }
 }
+
+function clearData(){
+    var table = document.getElementById("mainContainer");
+    var childNodes = table.childNodes;
+
+    for(var i = 0 ; i < childNodes.length; i++) {
+        if (childNodes[i].tagName == "TR" || childNodes[i].nodeName == "TR") {
+            table.removeChild(childNodes[i]);
+            i--
+        }
+    }
+}

@@ -4,7 +4,8 @@ function createSlave(event){
         "POST",
         gatherData(),
         function(){
-            alert("Success")
+            alert("Success");
+            selectSlaves()
         },
         function(){
             alert("Ups coś poszło nie tak");
