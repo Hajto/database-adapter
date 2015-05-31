@@ -12,7 +12,8 @@ function gatherData(){
     var outcome = {};
     outcome.isAwesome = document.getElementById("ds-checkbox").checked;
     for(var i=0; i<keys.length;i++){
-        outcome[keys[i]] = document.getElementById(dataScheme[keys[i]]).value
+        outcome[keys[i]] = document.getElementById(dataScheme[keys[i]]).value;
+        document.getElementById(dataScheme[keys[i]]).value = ""
     }
     return outcome
 }
