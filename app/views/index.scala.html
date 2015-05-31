@@ -4,31 +4,24 @@
 <html>
     <head>
         <title> Xenolizard's Slave Manager</title>
-        <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/main.css")" />
-
-        <script src="@routes.Assets.at("javascripts/main.js")"></script>
-        <script src="@routes.Assets.at("javascripts/connections/ajaxAPI.js")"></script>
-        <script src="@routes.Assets.at("javascripts/connections/main.js")"></script>
-        <script src="@routes.Assets.at("javascripts/views/gatherData.js")"></script>
-        <script src="@routes.Assets.at("javascripts/views/tableController.js")"></script>
 
         <script>
+            function init(){
+                document.getElementById("form").addEventListener("submit",function(event){
+                    document.location.href = document.location.origin + "/" + "repository/"+document.getElementById("target").value;
+                    alert("Dz");
+                    console.log(document.location.origin + "/" + "repository/"+document.getElementById("target").value);
+                    event.preventDefault();
+                    return false;
+                },false)
+            }
         </script>
     </head>
-    <body onload="init()" >
-        <button onclick="showWrapper()">Dodaj</button>
-        <table id="mainContainer">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Surname</th>
-                    <th>Nickname</th>
-                    <th>Age</th>
-                    <th>Anger</th>
-                    <th>Stupidity</th>
-                </tr>
-            </thead>
-        </table>
-        @form()
+    <body onload="init()">
+        <form id="form" action="">
+            <label for="target"><span>Nazwa przechowalni niewolnikow </span></label>
+            <input id="target" placeholder="movies" />
+        </form>
+
     </body>
 </html>

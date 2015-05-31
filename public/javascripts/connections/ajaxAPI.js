@@ -22,7 +22,7 @@ function ajaxAPI(haitoRequest){
 }
 
 function _haitoRequest(url, method, data, onSuccess, onError){
-    this.url = url;
+    this.url = document.location.origin+"/"+url+"/"+repoName;
     this.method = method;
     this.data = data;
     this.onSuccess = onSuccess;

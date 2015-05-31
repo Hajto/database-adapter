@@ -4,8 +4,13 @@
 
 # Home page
 GET         /                    controllers.Application.index
-GET         /all                 controllers.Application.selectAll
 
-POST        /create              controllers.Application.create
+GET         /repository/:repo    controllers.Application.htmlVendor(repo)
+
+GET         /all/:repo           controllers.Application.selectAll(repo :String)
+
+GET         /test                controllers.Application.smth
+
+POST        /create/:repo        controllers.Application.create(repo :String)
 
 GET         /assets/*file        controllers.Assets.at(path="/public", file)

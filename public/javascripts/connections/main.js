@@ -18,6 +18,7 @@ function createSlave(event){
 }
 
 function selectSlaves(event){
+    clearData();
     var connection = new _haitoRequest(
         "all",
         "GET",

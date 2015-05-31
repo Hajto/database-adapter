@@ -1,5 +1,5 @@
 body {
-    background: #fafafa url(http://jackrugile.com/images/misc/noise-diagonal.png);
+    background: #fafafa url("../images/noise-diagonal.png");
     color: #444;
     font: 100%/30px 'Helvetica Neue', helvetica, arial, sans-serif;
     text-shadow: 0 1px 0 #fff;
@@ -81,11 +81,11 @@ td:last-child {
 }
 
 tr {
-    background: url(http://jackrugile.com/images/misc/noise-diagonal.png);
+    background: url("../images/noise-diagonal.png");
 }
 
 tr:nth-child(odd) td {
-    background: #f1f1f1 url(http://jackrugile.com/images/misc/noise-diagonal.png);
+    background: #f1f1f1 url("../images/noise-diagonal.png");
 }
 
 tr:last-of-type td {

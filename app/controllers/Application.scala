@@ -17,21 +17,24 @@ import scala.io.Source
 
 object Application extends Controller with MongoController {
 
-  def collection: JSONCollection = db.collection[JSONCollection]("movies")
-
   def $(a:(String,JsValueWrapper)*) = Json.obj(a:_*)
+  def collection(repo: String):JSONCollection = db.collection[JSONCollection](repo)
 
   def index = Action{
     Ok(views.html.index())
   }
 
-  def create = Action.async(parse.json){ implicit req =>
-    collection.insert(req.body)
+  def htmlVendor(repo: String) = Action{
+    Ok(views.html.display(repo))
+  }
+
+  def create(repo: String) = Action.async(parse.json){ implicit req =>
+    collection(repo).insert(req.body)
     Future.successful(Ok)
   }
 
-  def selectAll = Action.async{
-    val cursor: Cursor[JsObject] = collection.find(Json.obj()).cursor[JsObject]
+  def selectAll(repo: String) = Action.async{
+    val cursor: Cursor[JsObject] = db.collection[JSONCollection](repo).find(Json.obj()).cursor[JsObject]
     val futureSlavesList: Future[List[JsObject]] = cursor.collect[List]()
     futureSlavesList.map { slaves =>
       Ok(Json.toJson(slaves))
@@ -39,11 +42,11 @@ object Application extends Controller with MongoController {
   }
 
   def smth = Action.async {
-    val id = "5569fa07ad9c1de89ec72a5f"
-    val feedSelector = $("_id" -> BSONObjectID(id))
+//    val id = "5569fa07ad9c1de89ec72a5f"
+//    val feedSelector = $("_id" -> BSONObjectID(id))
 
-    collection.update(feedSelector,$("$set" -> $("stuff"-> "another")))
-    //collection.insert(Json.obj("stuff"->"thing"))
+    //collection.update(feedSelector,$("$set" -> $("stuff"-> "another")))
+//    collection.insert(Json.obj("stuff"->"thing"))
     Future.successful(Ok)
   }
 }
