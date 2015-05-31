@@ -22,7 +22,7 @@ function init() {
     var inputs = document.querySelectorAll(".numberOnly");
     for (var i = 0; i < inputs.length; i++) {
         inputs[i].addEventListener("keypress", function (evt) {
-            if (evt.which < 48 || evt.which > 57) {
+            if (evt.which <= 46 || evt.which > 57 || 8) {
                 evt.preventDefault();
             }
         });

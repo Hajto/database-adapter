@@ -178,7 +178,7 @@ function collectDataForUpdate(trReference) {
 
 function applyEventListener(elem){
     elem.addEventListener("keypress", function (evt) {
-        if (evt.which < 48 || evt.which > 57)
+        if (evt.which <= 46 || evt.which > 57 || 8)
         {
             evt.preventDefault();
         }
