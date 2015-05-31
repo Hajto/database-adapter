@@ -38,6 +38,9 @@ function parseFeed(array) {
                 input.value = currentData;
                 input.setAttribute("data-previouscontent", currentData);
                 input.setAttribute("data-coresponding-field", keys[i - 1]);
+                if(i >= 4){
+                    applyEventListener(input)
+                }
 
                 tds[i].innerHTML = "";
                 tds[i].appendChild(input)
@@ -171,4 +174,13 @@ function collectDataForUpdate(trReference) {
     }
 
     return outcome;
+}
+
+function applyEventListener(elem){
+    elem.addEventListener("keypress", function (evt) {
+        if (evt.which < 48 || evt.which > 57)
+        {
+            evt.preventDefault();
+        }
+    });
 }
