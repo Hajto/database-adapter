@@ -1,7 +1,7 @@
 package controllers
 
 import play.api._
-import play.api.libs.json.{JsArray, Json, JsObject}
+import play.api.libs.json._
 import play.modules.reactivemongo.json.BSONFormats._
 import play.api.libs.json.Json.JsValueWrapper
 import play.api.mvc._
@@ -17,23 +17,25 @@ import scala.io.Source
 
 object Application extends Controller with MongoController {
 
-  def $(a:(String,JsValueWrapper)*) = Json.obj(a:_*)
-  def collection(repo: String):JSONCollection = db.collection[JSONCollection](repo)
+  def $(a: (String, JsValueWrapper)*) = Json.obj(a: _*)
+  val idReads : Reads[String] = (JsPath \ "_id").read[String]
 
-  def index = Action{
+  def collection(repo: String): JSONCollection = db.collection[JSONCollection](repo)
+
+  def index = Action {
     Ok(views.html.index())
   }
 
-  def htmlVendor(repo: String) = Action{
+  def htmlVendor(repo: String) = Action {
     Ok(views.html.display(repo))
   }
 
-  def create(repo: String) = Action.async(parse.json){ implicit req =>
+  def create(repo: String) = Action.async(parse.json) { implicit req =>
     collection(repo).insert(req.body)
     Future.successful(Ok)
   }
 
-  def selectAll(repo: String) = Action.async{
+  def selectAll(repo: String) = Action.async {
     val cursor: Cursor[JsObject] = db.collection[JSONCollection](repo).find(Json.obj()).cursor[JsObject]
     val futureSlavesList: Future[List[JsObject]] = cursor.collect[List]()
     futureSlavesList.map { slaves =>
@@ -41,12 +43,17 @@ object Application extends Controller with MongoController {
     }
   }
 
-  def smth = Action.async {
-//    val id = "5569fa07ad9c1de89ec72a5f"
-//    val feedSelector = $("_id" -> BSONObjectID(id))
+  def delete(repo: String) = Action.async(parse.json) { implicit req =>
+    req.body.validate[String](idReads).map{ id =>
+      println(id)
+      collection(repo).remove($("_id" -> BSONObjectID(id))).map( last => Ok("Niby ok"))
+    } getOrElse { Future.successful(BadRequest("BadJSon"))}
+  }
 
-    //collection.update(feedSelector,$("$set" -> $("stuff"-> "another")))
-//    collection.insert(Json.obj("stuff"->"thing"))
-    Future.successful(Ok)
+  def update(repo: String) = Action.async(parse.json) { implicit req =>
+    req.body.validate[String](idReads).map{ id =>
+      val newValues = req.body.as[JsObject] - "_id"
+      collection(repo).update($("_id" -> BSONObjectID(id)),$("$set" -> newValues)).map { _=> Ok("Success")}
+    } getOrElse { Future.successful(BadRequest("BadJSon"))}
   }
 }

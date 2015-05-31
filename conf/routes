@@ -3,14 +3,16 @@
 # ~~~~
 
 # Home page
-GET         /                    controllers.Application.index
+GET         /                        controllers.Application.index
 
-GET         /repository/:repo    controllers.Application.htmlVendor(repo)
+GET         /repository/:repo        controllers.Application.htmlVendor(repo)
 
-GET         /all/:repo           controllers.Application.selectAll(repo :String)
+GET         /all/:repo               controllers.Application.selectAll(repo :String)
 
-GET         /test                controllers.Application.smth
+POST        /create/:repo            controllers.Application.create(repo :String)
 
-POST        /create/:repo        controllers.Application.create(repo :String)
+POST        /remove/:repo            controllers.Application.delete(repo: String)
 
-GET         /assets/*file        controllers.Assets.at(path="/public", file)
+POST        /update/:repo            controllers.Application.update(repo: String)
+
+GET         /assets/*file            controllers.Assets.at(path="/public", file)
