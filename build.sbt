@@ -1,4 +1,4 @@
-name := """Scrapper"""
+name := """Lodowka"""
 
 version := "1.0-SNAPSHOT"
 

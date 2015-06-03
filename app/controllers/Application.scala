@@ -23,31 +23,36 @@ object Application extends Controller with MongoController {
   def collection(repo: String): JSONCollection = db.collection[JSONCollection](repo)
 
   def index = Action {
-    Ok(views.html.index())
+    Ok(views.html.index("repo"))
   }
 
   def htmlVendor(repo: String) = Action {
-    Ok(views.html.display(repo))
+    Ok(views.html.index(repo))
   }
 
   def create(repo: String) = Action.async(parse.json) { implicit req =>
-    collection(repo).insert(req.body)
-    Future.successful(Ok)
+    val id = BSONObjectID.generate
+    collection(repo).insert($("_id" -> id) ++ req.body.as[JsObject]).map { last =>
+      if(last.ok)
+        Ok(Json.toJson($("_id"->id) ++ $("success"->true)))
+      else
+        BadRequest($("success"->false))
+    }
   }
 
   def selectAll(repo: String) = Action.async {
     val cursor: Cursor[JsObject] = db.collection[JSONCollection](repo).find(Json.obj()).cursor[JsObject]
     val futureSlavesList: Future[List[JsObject]] = cursor.collect[List]()
-    futureSlavesList.map { slaves =>
-      Ok(Json.toJson(slaves))
+    futureSlavesList.map { pins =>
+      Ok(Json.toJson(pins))
     }
   }
 
   def delete(repo: String) = Action.async(parse.json) { implicit req =>
     req.body.validate[String](idReads).map{ id =>
       println(id)
-      collection(repo).remove($("_id" -> BSONObjectID(id))).map( last => Ok("Niby ok"))
-    } getOrElse { Future.successful(BadRequest("BadJSon"))}
+      collection(repo).remove($("_id" -> BSONObjectID(id))).map( last => Ok($("success"->last.ok)))
+    } getOrElse { Future.successful(BadRequest($("BadJson"->req.body)))}
   }
 
   def update(repo: String) = Action.async(parse.json) { implicit req =>
@@ -56,4 +61,5 @@ object Application extends Controller with MongoController {
       collection(repo).update($("_id" -> BSONObjectID(id)),$("$set" -> newValues)).map { _=> Ok("Success")}
     } getOrElse { Future.successful(BadRequest("BadJSon"))}
   }
+
 }
