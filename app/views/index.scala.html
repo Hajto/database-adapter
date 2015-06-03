@@ -1,32 +1,27 @@
-@(repoName: String)
+@()
 
-<!DOCTYPE html>
-
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
     <head>
-        <title>Fridge</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/font-awesome.min.css")">
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/pin.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <title> Xenolizard's Slave Manager</title>
 
-        <script src="@routes.Assets.at("javascripts/init.js")"></script>
-
-        <script src="@routes.Assets.at("javascripts/view/pin.js")"></script>
-
-        <script src="@routes.Assets.at("javascripts/connections/ajaxAPI.js")"></script>
-        <script src="@routes.Assets.at("javascripts/connections/dataConnector.js")"></script>
-
+        <script>
+            function init(){
+                document.getElementById("form").addEventListener("submit",function(event){
+                    document.location.href = document.location.origin + "/" + "repository/"+document.getElementById("target").value;
+                    alert("Dz");
+                    console.log(document.location.origin + "/" + "repository/"+document.getElementById("target").value);
+                    event.preventDefault();
+                    return false;
+                },false)
+            }
+        </script>
     </head>
     <body onload="init()">
-    <script>
-        var repoName = "@repoName";
+        <form id="form" action="">
+            <label for="target"><span>Nazwa przechowalni niewolnikow </span></label>
+            <input id="target" placeholder="movies" />
+        </form>
 
-        //Statistics
-        //TODO: Encupsulate into object
-        var progress;
-        var number = 0;
-        var deleted;
-    </script>
     </body>
 </html>
-
